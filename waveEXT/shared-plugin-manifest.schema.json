@@ -1,6 +1,6 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://raw.githubusercontent.com/OceanApocalypse/schemas/refs/heads/main/waveEXT/shared-plugin-manifest.schema.json",
+  "$id": "https://oceanapocalypse.org/schemas/waveEXT/shared-plugin-manifest.schema.json",
   "title": "waveIDE Shared Plugin Manifest",
   "description": "Schema for a waveIDE plugin whose manifest is shared.",
   "type": "object",
