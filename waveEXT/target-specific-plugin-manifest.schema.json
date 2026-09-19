@@ -1,6 +1,6 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://raw.githubusercontent.com/OceanApocalypse/schemas/refs/heads/main/waveEXT/target-specific-plugin-manifest.schema.json",
+  "$id": "https://oceanapocalypse.org/schemas/waveEXT/target-specific-plugin-manifest.schema.json",
   "title": "waveIDE Target-Specific Plugin Manifest",
   "description": "Schema for a target-specific waveIDE plugin manifest.",
   "type": "object",
