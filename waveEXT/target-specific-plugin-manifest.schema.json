@@ -1,0 +1,122 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/OceanApocalypse/schemas/refs/heads/main/waveEXT/target-specific-plugin-manifest.schema.json",
+  "title": "waveIDE Target-Specific Plugin Manifest",
+  "description": "Schema for a target-specific waveIDE plugin manifest.",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "manifestFormat": {
+      "type": "string",
+      "const": "specific"
+    },
+    "entryPoint": {
+      "type": "string",
+      "description": "Path to the target-specific plugin binary.",
+      "minLength": 1
+    },
+    "compatibility": {
+      "$ref": "#/$defs/compatibility"
+    },
+    "themes": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/theme"
+      }
+    },
+    "locales": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/locale"
+      }
+    }
+  },
+  "required": [
+    "manifestFormat",
+    "entryPoint"
+  ],
+  "$defs": {
+    "compatibility": {
+      "type": "object",
+      "description": "Specific compatibility settings that override shared settings.",
+      "additionalProperties": false,
+      "properties": {
+        "conflicts": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          },
+          "uniqueItems": true
+        },
+        "compatibleEditors": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/editorVersion"
+          },
+          "uniqueItems": true
+        },
+        "incompatibleEditors": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/editorVersion"
+          },
+          "uniqueItems": true
+        },
+        "unspecifiedAreIncompatible": {
+          "type": "boolean",
+          "default": false
+        }
+      }
+    },
+    "editorVersion": {
+      "type": "string",
+      "description": "An editor version, such as waveIDE:3.0.1 or waveIDE:latest.",
+      "pattern": "^[^:\\s]+(?::[^\\s]+)?$"
+    },
+    "theme": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "Must refer to a theme declared by the shared manifest.",
+          "minLength": 1
+        },
+        "file": {
+          "type": "string",
+          "description": "Target-specific theme file. May be omitted when the shared manifest supplies a fallback.",
+          "minLength": 1
+        }
+      },
+      "required": [
+        "name"
+      ]
+    },
+    "locale": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "isoName": {
+          "type": "string",
+          "description": "ISO 639-1 or ISO 639-3 language code.",
+          "pattern": "^[A-Za-z]{2,3}$"
+        },
+        "cultureName": {
+          "type": "string",
+          "description": ".NET culture name.",
+          "pattern": "^[A-Za-z]{2,3}(?:-[A-Za-z0-9]{2,8})*$"
+        },
+        "file": {
+          "type": "string",
+          "description": "Target-specific locale file. May be omitted when the shared manifest supplies a fallback.",
+          "minLength": 1
+        }
+      },
+      "required": [
+        "isoName",
+        "cultureName"
+      ]
+    }
+  }
+}
