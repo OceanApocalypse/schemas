@@ -1,6 +1,6 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://example.com/schemas/waveide-plugin-manifest.schema.json",
+  "$id": "https://raw.githubusercontent.com/OceanApocalypse/schemas/refs/heads/main/waveEXT/regular-plugin-manifest.schema.json",
   "title": "waveIDE Plugin Manifest",
   "description": "Schema for a regular waveIDE plugin manifest.",
   "type": "object",
