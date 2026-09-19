@@ -1,0 +1,307 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/OceanApocalypse/schemas/refs/heads/main/waveEXT/shared-plugin-manifest.schema.json",
+  "title": "waveIDE Shared Plugin Manifest",
+  "description": "Schema for a waveIDE plugin whose manifest is shared.",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "manifestFormat": {
+      "type": "string",
+      "const": "shared"
+    },
+    "plugin": {
+      "$ref": "#/$defs/plugin"
+    },
+    "permissions": {
+      "$ref": "#/$defs/permissions"
+    },
+    "compatibility": {
+      "$ref": "#/$defs/compatibility"
+    },
+    "themes": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/theme"
+      }
+    },
+    "locales": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/locale"
+      }
+    },
+    "languages": {
+      "type": "object",
+      "description": "Language identifiers mapped to language definitions.",
+      "propertyNames": {
+        "type": "string",
+        "pattern": "^[^\\s]+$"
+      },
+      "additionalProperties": {
+        "$ref": "#/$defs/language"
+      }
+    },
+    "targets": {
+      "type": "array",
+      "description": "Target manifests.",
+      "minItems": 1,
+      "items": {
+        "$ref": "#/$defs/target"
+      }
+    }
+  },
+  "required": [
+    "manifestFormat",
+    "plugin",
+    "targets"
+  ],
+  "$defs": {
+    "plugin": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique plugin identifier.",
+          "minLength": 1,
+          "pattern": "^[A-Za-z0-9]+(?:[._-][A-Za-z0-9]+)*$"
+        },
+        "version": {
+          "type": "string",
+          "description": "Plugin version.",
+          "minLength": 1
+        },
+        "displayName": {
+          "type": "string",
+          "minLength": 1
+        },
+        "author": {
+          "type": "string",
+          "minLength": 1
+        },
+        "license": {
+          "type": "string",
+          "description": "SPDX license expression.",
+          "minLength": 1
+        },
+        "language": {
+          "type": "string",
+          "description": "Programming language used to implement the plugin.",
+          "minLength": 1
+        },
+        "urls": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/pluginUrl"
+          }
+        }
+      },
+      "required": [
+        "id",
+        "version"
+      ]
+    },
+    "pluginUrl": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "type": {
+          "type": "string",
+          "enum": [
+            "source",
+            "docs",
+            "home",
+            "tracker",
+            "community",
+            "other"
+          ]
+        },
+        "name": {
+          "type": "string",
+          "minLength": 1
+        },
+        "value": {
+          "type": "string",
+          "format": "uri"
+        }
+      },
+      "required": [
+        "type",
+        "value"
+      ]
+    },
+    "permissions": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "scopes": {
+          "type": "array",
+          "description": "Permissions shared by all targets.",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          },
+          "uniqueItems": true
+        }
+      },
+      "required": [
+        "scopes"
+      ]
+    },
+    "compatibility": {
+      "type": "object",
+      "description": "Shared compatibility settings. Target-specific manifests may override these settings.",
+      "additionalProperties": false,
+      "properties": {
+        "conflicts": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          },
+          "uniqueItems": true
+        },
+        "compatibleEditors": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/editorVersion"
+          },
+          "uniqueItems": true
+        },
+        "incompatibleEditors": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/editorVersion"
+          },
+          "uniqueItems": true
+        },
+        "unspecifiedAreIncompatible": {
+          "type": "boolean",
+          "default": false
+        }
+      }
+    },
+    "editorVersion": {
+      "type": "string",
+      "description": "An editor version, such as waveIDE:3.0.1 or waveIDE:latest.",
+      "pattern": "^[^:\\s]+(?::[^\\s]+)?$"
+    },
+    "theme": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "name": {
+          "type": "string",
+          "minLength": 1
+        },
+        "file": {
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "required": [
+        "name"
+      ]
+    },
+    "locale": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "isoName": {
+          "type": "string",
+          "description": "ISO 639-1 or ISO 639-3 language code.",
+          "pattern": "^[A-Za-z]{2,3}$"
+        },
+        "cultureName": {
+          "type": "string",
+          "description": ".NET culture name.",
+          "pattern": "^[A-Za-z]{2,3}(?:-[A-Za-z0-9]{2,8})*$"
+        },
+        "file": {
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "required": [
+        "isoName",
+        "cultureName"
+      ]
+    },
+    "language": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "name": {
+          "type": "string",
+          "minLength": 1
+        },
+        "fileExtensions": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "pattern": "^\\*\\.[^\\s*]+$"
+          },
+          "uniqueItems": true
+        },
+        "mimeType": {
+          "type": "string",
+          "pattern": "^[^\\s/]+/[^\\s]+$"
+        },
+        "capabilities": {
+          "$ref": "#/$defs/capabilities"
+        }
+      },
+      "required": [
+        "name",
+        "fileExtensions",
+        "mimeType"
+      ]
+    },
+    "capabilities": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "lsp": {
+          "type": "boolean"
+        },
+        "formatter": {
+          "type": "boolean"
+        },
+        "debugger": {
+          "type": "boolean"
+        }
+      }
+    },
+    "target": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "apiVersion": {
+          "type": "string",
+          "description": "SDK API version supported by this target.",
+          "minLength": 1
+        },
+        "os": {
+          "type": "string",
+          "description": "Target operating system.",
+          "minLength": 1
+        },
+        "arch": {
+          "type": "string",
+          "description": "Target CPU architecture.",
+          "minLength": 1
+        },
+        "path": {
+          "type": "string",
+          "description": "Path to the target-specific manifest.",
+          "minLength": 1
+        }
+      },
+      "required": [
+        "apiVersion",
+        "path"
+      ]
+    }
+  }
+}
